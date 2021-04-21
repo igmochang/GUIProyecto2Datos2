@@ -2,6 +2,9 @@
 #define GUI_H
 
 #include <QMainWindow>
+#include <QObject>
+#include <QJsonObject>
+#include <QJsonArray>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class GUI; }
@@ -18,7 +21,20 @@ public:
 private slots:
     void on_runButton_clicked();
 
+    
+
 private:
     Ui::GUI *ui;
+    
+    QStringList separateCode(QString code);
+    bool codeCheck(QString codeline_);
+    bool isFloat(QString n);
+    bool isDouble(QString n);
+    bool isLong(QString n);
+    bool isChar(QString n);
+    
+    QStringList lineList;
+    QJsonArray arrayElem;
+    int cont = 0;
 };
 #endif // GUI_H
