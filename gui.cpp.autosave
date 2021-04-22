@@ -45,9 +45,6 @@ QStringList GUI::separateCode(QString code) {
     lineList.removeAll(" ");
     elemList = lineList[cont].split(lineElem);
 
-
-
-
     return lineList;
 }
 
@@ -60,7 +57,6 @@ bool GUI::codeCheck(QString codeline_) {
                                   elemList_[0] == "float" or elemList_[0] == "double"){
             if((elemList_[1].at(0)<='z' && elemList_[1].at(0)>='a') || (elemList_[1].at(0)<='Z' && elemList_[1].at(0)>='A')){
                 if(elemList_[2] == '='){
-
                     if(elemList_[0] == "int"){
                         QRegExp re("\\d*");
                         if(re.exactMatch(elemList_[3])){

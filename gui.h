@@ -34,6 +34,8 @@ private:
     bool isChar(QString n);
     
     QStringList lineList;
+    QString strLinea;
+    QStringList elemList;
     QJsonArray arrayElem;
     int cont = 0;
 };
