@@ -2,8 +2,8 @@
 // Created by Johnny on 8/3/21.
 //
 
-#ifndef PROYECYO1_DATOS2_CLIENT_H
-#define PROYECYO1_DATOS2_CLIENT_H
+#ifndef CLIENT_H
+#define CLIENT_H
 
 #include <iostream>
 #include <string.h>
@@ -66,6 +66,7 @@ void Client::Recibir(){
     recv(client, bufferR, bufsizeR, 0);
     std::string text = bufferR;
     std::cout << text << std::endl;
+    reader.parse(text, dataR);
 }
 
 void Client::Enviar(std::string text){
@@ -77,4 +78,4 @@ void Client::Enviar(std::string text){
     send(client, bufferS, bufsizeS, 0);
 }
 
-#endif PROYECYO1_DATOS2_CLIENT_H
+#endif

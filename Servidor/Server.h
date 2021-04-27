@@ -2,8 +2,8 @@
 // Created by Johnny on 8/3/21.
 //
 
-#ifndef PROYECYO1_DATOS2_SERVER_H
-#define PROYECYO1_DATOS2_SERVER_H
+#ifndef SERVER_H
+#define SERVER_H
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -15,6 +15,7 @@
 #include <unistd.h>
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/json.h>
+#include <map>
 
 class Server{
     public:
@@ -66,17 +67,19 @@ class Server{
     }
 
     //Metodos
-    void Recibir();
+    std::string Recibir();
     void Enviar(std::string);
 
 };
 
-void Server::Recibir(){
+std::string Server::Recibir(){
     int bufsizeR = 1024;
     char bufferR[1024];
+    std::map<int, std::string, std::string> map;
     recv(server, bufferR, bufsizeR, 0);
     std::string text = bufferR;
-    std::cout << text << std::endl;
+    reader.parse(text, dataR);
+    return text, dataR["Tipo"];
 }
 
 void Server::Enviar(std::string text){
@@ -88,4 +91,4 @@ void Server::Enviar(std::string text){
     send(server, bufferS, bufsizeS, 0);
 }
 
-#endif PROYECYO1_DATOS2_SERVER_H
+#endif 
