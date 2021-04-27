@@ -36,6 +36,8 @@ private:
     
     QStringList separateCode(QString code);
     bool codeCheck(QString codeline_);
+    bool isNumber(QString strnum);
+    bool isInt(QString n);
     bool isFloat(QString n);
     bool isDouble(QString n);
     bool isLong(QString n);
@@ -45,8 +47,11 @@ private:
     bool areCompatible(QString n1, QString n2);
     int convertToAscii(std::string n);
     QString fromAscii(int n);
+    QString getValue(QString varName);
+    QString getAddr(QString varName);
     //std::vector<std::array>
     QVector<std::array<QString, 4>> vecArray;
+
 
 
 

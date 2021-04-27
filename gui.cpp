@@ -5,8 +5,8 @@
 #include <stdio.h>
 #include <string>
 #include <sstream>
-#include <Servidor/Client.h>
-Client *Cliente = new Client();
+//#include <Servidor/Client.h>
+//Client *Cliente = new Client();
 
 GUI::GUI(QWidget *parent)
     : QMainWindow(parent)
@@ -14,6 +14,11 @@ GUI::GUI(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("C! IDE");
+    qDebug("Ventaja de C! creada");
+
+    std::array<QString, 4> errex {{"int", "a", "2", "0x0A"}};
+    vecArray.push_back(errex);
+
 
 }
 
@@ -29,23 +34,10 @@ void GUI::on_runButton_clicked()
     QString plainCode = this->ui->code->toPlainText();
     QStringList lineList = separateCode(plainCode);
 
+
     if(codeCheck(lineList[cont])){
-        strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
-
-        Cliente->Enviar(strLinea.toUtf8().constData());
-        Cliente->Recibir();
-        std::array<QString, 4> errex {{"int", "a", "2", "0x1A"}};
-        //se agrega al vector de variables globales
-        vecArray.push_back(errex);
-
-        std::array<QString, 4> errex2 {{"char", "c", "a", "0x1B"}};
-        //se agrega al vector de variables globales
-        vecArray.push_back(errex2);
-
-        //ui->output->setText(strLinea);
-        ui->output->append(vecArray[0][3]);
+        cont++;
     }
-    cont++;
 }
 
 
@@ -65,47 +57,69 @@ bool GUI::codeCheck(QString codeline_) {
     QRegExp lineElem("(\\ |\\;)");
     QStringList elemList_ = codeline_.split(lineElem);
 
-    if(elemList_[0] != "struct" or elemList_[0] != "{" or elemList_[0] != "}"){
+    if(elemList_[0] != "struct" && elemList_[0] != "{" && elemList_[0] != "}" && elemList_[0].startsWith("cout") == false){
         if(elemList_[0] == "int" or elemList_[0] == "long" or elemList_[0] == "char" or
-                elemList_[0] == "float" or elemList_[0] == "double"){
+                elemList_[0] == "float" or elemList_[0] == "double" or elemList_[0].startsWith("reference")){
             if((elemList_[1].at(0)<='z' && elemList_[1].at(0)>='a') || (elemList_[1].at(0)<='Z' && elemList_[1].at(0)>='A')){
                 if(elemList_[2] == '='){
-
                     if(elemList_[0] == "int"){
                         QRegExp re("\\d*");
                         if(re.exactMatch(elemList_[3])){
                             if(codeline_.endsWith(';')){
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                //Cliente->Enviar(strLinea.toUtf8().constData());
+                                //Cliente->Recibir();
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else{ui->appLog->append("Error: Valor no es int");}
                     } else if (elemList_[0] == "float"){
                         if(isFloat(elemList_[3])){
                             if(codeline_.endsWith(';')){
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                //Cliente->Enviar(strLinea.toUtf8().constData());
+                                //Cliente->Recibir();
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es float");}
                     } else if (elemList_[0] == "double") {
                         if(isDouble(elemList_[3])){
                             if(codeline_.endsWith(';')){
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                //Cliente->Enviar(strLinea.toUtf8().constData());
+                                //Cliente->Recibir();
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es double");}
                     } else if (elemList_[0] == "long") {
                         if(isLong(elemList_[3])){
                             if(codeline_.endsWith(';')){
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                //Cliente->Enviar(strLinea.toUtf8().constData());
+                                //Cliente->Recibir();
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es long");}
                     } else if (elemList_[0] == "char") {
                         if(isChar(elemList_[3])){
                             if(codeline_.endsWith(';')){
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                //Cliente->Enviar(strLinea.toUtf8().constData());
+                                //Cliente->Recibir();
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es char");}
+                    } else if (elemList_.startsWith("reference")){
+                        if (elemList_[2] == "="){
+                            if(isVariable(elemList_[3].mid(8,elemList_[3].length()-9))){
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + getAddr(elemList_[3].mid(8,elemList_[3].length()-9)) + "\"}";
+                               //Cliente->Enviar(strLinea.toUtf8().constData());
+                                //Cliente->Recibir();
+                                return true;
+                            }
+                        }
                     }
                 }
             } else{ui->appLog->setText("Error en nombre de variable");}
-
         } else {
             if(isVariable(elemList_[0]) && isVariable(elemList_[2])){
                 if(vecArray[findVariableNameIndex(elemList_[0])][0] != "char" && vecArray[findVariableNameIndex(elemList_[2])][0] != "char"){
@@ -382,7 +396,41 @@ bool GUI::codeCheck(QString codeline_) {
                 ui->appLog->setText("Tipo de dato no reconocido");
             }
         }
+    } else{
+        if(elemList_[0].startsWith("cout")){
+            qDebug("imprimiendo");
+            if(elemList_[0].at(5) == "\""){
+                ui->output->append(elemList_[0].mid(6, elemList_[0].length()-8));
+                return true;
+            } else if(isVariable(elemList_[0].mid(5, elemList_[0].length()-6))){
+               ui->output->append(vecArray[findVariableNameIndex(elemList_[0].mid(5, elemList_[0].length()-6))][2]);
+               return true;
+            } else if(isNumber(elemList_[0].mid(5, elemList_[0].length()-6))){
+                ui->output->append(elemList_[0].mid(5, elemList_[0].length()-6));
+                return true;
+            } else if(elemList_[0].mid(5, elemList_[0].length()-6).startsWith("getAddr")){
+                ui->output->append(getAddr(elemList_[0].mid(13, elemList_[0].length()-14)));
+                return true;
+            } else if (elemList_[0].mid(5, elemList_[0].length()-6).startsWith("getValue")){
+                ui->output->append(getValue(elemList_[0].mid(13, elemList_[0].length()-14)));
+                return true;
+            }
+        }
     }
+}
+
+bool GUI::isNumber(QString strnum){
+    if (isFloat(strnum) or isLong(strnum) or isDouble(strnum) or isInt(strnum)){
+        return true;
+    } else{return false;}
+}
+
+QString GUI::getValue(QString varName){
+    return vecArray[findVariableNameIndex(varName)][2];
+}
+
+QString GUI::getAddr(QString varName){
+    return vecArray[findVariableNameIndex(varName)][3];
 }
 
 QString GUI::fromAscii(int n){
@@ -415,24 +463,14 @@ int GUI::findVariableNameIndex(QString varName){
     }
 }
 
-/*
-bool GUI::isVariable(QString varName){
-    QVector<std::array<QString, 4>>::iterator it = std::find(vecArray.begin(),vecArray.end(),varName); //aqui hay error
-    if (it != vecArray.end()){
+bool GUI::isInt(QString n){
+    bool ok;
+    double i;
+    i = n.toInt(&ok);
+    if(ok == true){
         return true;
-    } else{ return false; }
+    } else{return false;}
 }
-
-
-int GUI::findVariableNameIndex(QString varName){
-    QVector<std::array<QString, 4>>::iterator it = std::find(vecArray.begin(),vecArray.end(),varName);
-    if (it != vecArray.end()){
-        int index = std::distance(vecArray.begin(),it);
-    } else{ int index = -1; }
-}
-
-*/
-
 
 bool GUI::isFloat(QString n){
     bool ok;
