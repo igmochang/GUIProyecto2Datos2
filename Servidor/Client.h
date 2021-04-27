@@ -67,6 +67,8 @@ void Client::Recibir(){
     std::string text = bufferR;
     std::cout << text << std::endl;
     reader.parse(text, dataR);
+    std::string data = writer.write(dataR);
+    std::cout << data << std::endl;
 }
 
 void Client::Enviar(std::string text){

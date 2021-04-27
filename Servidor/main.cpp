@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <malloc.h>
-//#include "Server.h"
+#include "Server.h"
 #include "Memory.h"
 #include <ctime>
 
@@ -9,15 +9,15 @@
 int main(int argc, char *argv[]){
 
     int time = 10;
-    int tamano = 1024;
-    //int tamano = atoi(argv[2]);
-    //int puerto = atoi(argv[1]);
+    //int tamano = 1024;
+    int tamano = atoi(argv[2]);
+    int puerto = atoi(argv[1]);
 
-    //std::cout << "Puerto del servidor:  " << puerto << std::endl;
+    std::cout << "Puerto del servidor:  " << puerto << std::endl;
     
-    //Server *Servidor = new Server(puerto);
+    Server *Servidor = new Server(puerto);
     Memory *Memoria = new Memory(tamano);
-    std::string text, revisar;
+    std::string text, revisar, textSalida = "";
     int espacio;
 
     while(true){
@@ -26,8 +26,9 @@ int main(int argc, char *argv[]){
             time += 10;
         }
         
-        revisar = "long";
-        //text, revisar = Servidor->Recibir();
+        revisar = "int";
+        text = Servidor->Recibir();
+        std::cout << text << std::endl;
         if(revisar == "int") espacio = 4;
         else if(revisar == "long") espacio = 8;
         else if(revisar == "char") espacio = 1;
@@ -37,12 +38,18 @@ int main(int argc, char *argv[]){
         if(Memoria->Revisar(espacio)){
             void *ptrMemoria = Memoria->Agregar(revisar);
             std::cout << ptrMemoria << std::endl;
+            for(int i=0; i<(text.length()-4); i++){
+            		textSalida += text[i];
+            	}
+            textSalida += ",\"Memoria\":\"0x102300\"";
+            textSalida += ",\"Referencia\":\"1\"";
+            std::cout << textSalida << std::endl;
         } else{
             std::cout << "No hay espacio" << std::endl;
             text = "Null";
         }
 
-        //Servidor->Enviar(text);
+        Servidor->Enviar(textSalida);
     }
 
     return 0;

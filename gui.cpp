@@ -5,6 +5,8 @@
 #include <stdio.h>
 #include <string>
 #include <sstream>
+#include <Servidor/Client.h>
+Client *Cliente = new Client();
 
 GUI::GUI(QWidget *parent)
     : QMainWindow(parent)
@@ -12,7 +14,6 @@ GUI::GUI(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("C! IDE");
-
 
 }
 
@@ -31,8 +32,8 @@ void GUI::on_runButton_clicked()
     if(codeCheck(lineList[cont])){
         strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
 
-        //enivar la vara al servidor
-        //se recibe array con info de la variable
+        Cliente->Enviar(strLinea.toUtf8().constData());
+        Cliente->Recibir();
         std::array<QString, 4> errex {{"int", "a", "2", "0x1A"}};
         //se agrega al vector de variables globales
         vecArray.push_back(errex);

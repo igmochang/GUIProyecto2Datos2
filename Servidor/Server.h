@@ -79,7 +79,7 @@ std::string Server::Recibir(){
     recv(server, bufferR, bufsizeR, 0);
     std::string text = bufferR;
     reader.parse(text, dataR);
-    return text, dataR["Tipo"];
+    return text;
 }
 
 void Server::Enviar(std::string text){
