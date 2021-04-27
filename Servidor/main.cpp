@@ -17,10 +17,12 @@ int main(int argc, char *argv[]){
     
     Server *Servidor = new Server(puerto);
     Memory *Memoria = new Memory(tamano);
-    std::string text, revisar, textSalida = "";
+    std::string text, revisar, textSalida;
     int espacio;
+    char *limit;
 
     while(true){
+    	textSalida = "";
         if(double(clock()/CLOCKS_PER_SEC) > time){
             Memoria->Clear();
             time += 10;
@@ -38,9 +40,11 @@ int main(int argc, char *argv[]){
         if(Memoria->Revisar(espacio)){
             void *ptrMemoria = Memoria->Agregar(revisar);
             std::cout << ptrMemoria << std::endl;
-            for(int i=0; i<(text.length()-4); i++){
-            		textSalida += text[i];
-            	}
+            limit = "}";
+            for(int i=0; i<(text.length()-2); i++){
+            	if(text[i] != *limit){
+           		textSalida += text[i];
+            	} }
             textSalida += ",\"Memoria\":\"0x102300\"";
             textSalida += ",\"Referencia\":\"1\"";
             std::cout << textSalida << std::endl;
