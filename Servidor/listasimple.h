@@ -83,7 +83,7 @@ DATO ListaSimple<DATO>::obtenerPos(int Pos){
         if(Pos == 0){
             return tmp->dato;
         }
-        while(i < Pos && i =< size){
+        while(i < Pos && i <= size){
             tmp = tmp->siguiente;
             i += 1; 
     }   return tmp->dato; 

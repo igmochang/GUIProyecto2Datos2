@@ -4,9 +4,11 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string>
+#include <iostream>
 #include <sstream>
-//#include <Servidor/Client.h>
-//Client *Cliente = new Client();
+#include <Servidor/Client.h>
+
+Client *Cliente = new Client();
 
 GUI::GUI(QWidget *parent)
     : QMainWindow(parent)
@@ -14,11 +16,10 @@ GUI::GUI(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("C! IDE");
-    qDebug("Ventaja de C! creada");
+    qDebug("Ventana de C! creada");
 
     std::array<QString, 4> errex {{"int", "a", "2", "0x0A"}};
     vecArray.push_back(errex);
-
 
 }
 
@@ -66,9 +67,15 @@ bool GUI::codeCheck(QString codeline_) {
                         QRegExp re("\\d*");
                         if(re.exactMatch(elemList_[3])){
                             if(codeline_.endsWith(';')){
-                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
-                                //Cliente->Enviar(strLinea.toUtf8().constData());
-                                //Cliente->Recibir();
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + /*true or false*/ +"\"}";
+                                Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+                                reader.parse(text, data);
+                                std::cout << "Memoria" << data["Memoria"].asString() << std::endl;
+                                std::cout << "Referencia" << data["Referencia"].asString() << std::endl;
+                                std::cout << "Nombre" << data["Nombre"].asString() << std::endl;
+                                std::cout << "Valor" << data["Valor"].asString() << std::endl;
+                                std::cout << "Tipo" << data["Tipo"].asString() << std::endl;
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else{ui->appLog->append("Error: Valor no es int");}
@@ -76,8 +83,9 @@ bool GUI::codeCheck(QString codeline_) {
                         if(isFloat(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
-                                //Cliente->Enviar(strLinea.toUtf8().constData());
-                                //Cliente->Recibir();
+                                Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+                                reader.parse(text, data);
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es float");}
@@ -85,8 +93,9 @@ bool GUI::codeCheck(QString codeline_) {
                         if(isDouble(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
-                                //Cliente->Enviar(strLinea.toUtf8().constData());
-                                //Cliente->Recibir();
+                                Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+                                reader.parse(text, data);
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es double");}
@@ -94,8 +103,9 @@ bool GUI::codeCheck(QString codeline_) {
                         if(isLong(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
-                                //Cliente->Enviar(strLinea.toUtf8().constData());
-                                //Cliente->Recibir();
+                                Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+                                reader.parse(text, data);
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es long");}
@@ -103,8 +113,9 @@ bool GUI::codeCheck(QString codeline_) {
                         if(isChar(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
-                                //Cliente->Enviar(strLinea.toUtf8().constData());
-                                //Cliente->Recibir();
+                                Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+                                reader.parse(text, data);
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es char");}
@@ -112,8 +123,9 @@ bool GUI::codeCheck(QString codeline_) {
                         if (elemList_[2] == "="){
                             if(isVariable(elemList_[3].mid(8,elemList_[3].length()-9))){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + getAddr(elemList_[3].mid(8,elemList_[3].length()-9)) + "\"}";
-                               //Cliente->Enviar(strLinea.toUtf8().constData());
-                                //Cliente->Recibir();
+                                Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+                                reader.parse(text, data);
                                 return true;
                             }
                         }

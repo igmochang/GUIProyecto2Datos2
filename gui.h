@@ -1,6 +1,8 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include <jsoncpp/json/value.h>
+#include <jsoncpp/json/json.h>
 #include <QMainWindow>
 #include <QObject>
 #include <QJsonDocument>
@@ -23,6 +25,9 @@ class GUI : public QMainWindow
 public:
     GUI(QWidget *parent = nullptr);
     ~GUI();
+    Json::Reader reader;
+    Json::Value data;
+    std::string text;
 
 private slots:
     void on_runButton_clicked();

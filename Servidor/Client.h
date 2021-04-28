@@ -55,12 +55,12 @@ class Client{
     }
 
     //Metodos
-    void Recibir();
+    std::string Recibir();
     void Enviar(std::string);
 
 };
 
-void Client::Recibir(){
+std::string Client::Recibir(){
     int bufsizeR = 1024;
     char bufferR[1024];
     recv(client, bufferR, bufsizeR, 0);
@@ -68,7 +68,8 @@ void Client::Recibir(){
     std::cout << text << std::endl;
     reader.parse(text, dataR);
     std::string data = writer.write(dataR);
-    std::cout << data << std::endl;
+    return data;
+    
 }
 
 void Client::Enviar(std::string text){

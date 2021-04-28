@@ -76,6 +76,7 @@ std::string Server::Recibir(){
     int bufsizeR = 1024;
     char bufferR[1024];
     recv(server, bufferR, bufsizeR, 0);
+    std::string text = bufferR;
     return text;
 }
 

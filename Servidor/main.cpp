@@ -17,20 +17,21 @@ int main(int argc, char *argv[]){
     int puerto = atoi(argv[1]);
     Json::Reader reader;
     Json::Value data;
-    ListaSimple<std::tuple<std::string, std::string, int, *void>> * listaDatos = new ListaSimple<std::tuple<std::string, std::string, int, *void>>();
-    std::tuple<std::string, std::string, int, *void> TuplaG, TuplaTem;
+    ListaSimple<std::tuple<std::string, std::string, int>> * listaDatos = new ListaSimple<std::tuple<std::string, std::string, int>>();
+    std::tuple<std::string, std::string, int> TuplaG, TuplaTem;
 
     Memory *Memoria = new Memory(tamano);
-
-    Server *Servidor = new Server(puerto);
     std::cout << "Puerto del servidor:  " << puerto << std::endl;
+    Server *Servidor = new Server(puerto);
 
     std::string text, revisar, textSalida;
     int espacio;
-    char *limit;
+    char *limitF, *limitI;
+    bool guardar;
 
     while(true){
     	textSalida = "";
+    	guardar = false;
         if(double(clock()/CLOCKS_PER_SEC) > time){
             Memoria->Clear();
             time += 10;
@@ -39,7 +40,7 @@ int main(int argc, char *argv[]){
         text = Servidor->Recibir();
         reader.parse(text, data);
 
-        revisar = data["Tipo"];
+        revisar = data["tipo"].asString();
 
         if(revisar == "int") espacio = 4;
         else if(revisar == "long") espacio = 8;
@@ -52,23 +53,30 @@ int main(int argc, char *argv[]){
             void *ptrMemoria = Memoria->Agregar(revisar);
             std::cout << ptrMemoria << std::endl;
 
-            TuplaG = std::make_tuple(data["nombre"], data["tipo"], 1, ptrMemoria);
+            TuplaG = std::make_tuple(data["nombre"].asString(), data["tipo"].asString(), 1);
             listaDatos->insertar(TuplaG);
 
-            for(int i=0; i<=listaDatos->size; i++){
+            for(int i=0; i<=listaDatos->size-1; i++){
                 TuplaTem = listaDatos->obtenerPos(i);
-                std::cout << std::get<0>(TuplaTem) << " " << std::get<3> << endl;
+                std::cout << std::get<0>(TuplaTem) << " " << std::get<1>(TuplaTem) << std::endl;
             }
 
 
-            limit = "}";
-            for(int i=0; i<(text.length()-2); i++){
-            	if(text[i] != *limit){
+            limitF = "}";
+            limitI = "{";
+            for(int i=0; i<(text.length()); i++){
+            	if(text[i] == *limitF && guardar == true){
+            		guardar = false;
+            	}
+            	else if(text[i] == *limitI && guardar == false){
            		textSalida += text[i];
-            	} }
-            textSalida += ",\"Memoria\":\"0x102300\"";
-            textSalida += ",\"Referencia\":\"1\"";
-            std::cout << textSalida << std::endl;
+           		guardar = true;
+            	}else if(guardar == true){
+            		textSalida += text[i];
+            	}
+            }
+            textSalida += ",\"memoria\":\"0x102300\"";
+            textSalida += ",\"referencia\":\"1\"}";
 
 
         } else{
