@@ -1,56 +1,45 @@
 //
 // Created by ignacio on 8/3/21.
 //
-#include <cstdlib>
 
 #ifndef NODO_H
 #define NODO_H
 
+#include <stddef.h>
+
+template<class DATO>
 class Nodo {
 public:
-    // Atributos
-    int dato[1];
-    Nodo * siguiente;
+    DATO dato;
+    Nodo<DATO> * siguiente;
 
 
     // Constructores
     Nodo(){
-        dato[0];
-        dato[1];
+        dato;
         siguiente = NULL;
     }
 
-    Nodo(int _dato, int referencia){
-        dato[0] = _dato;
-        dato[1] = referencia;
+    Nodo(DATO _dato){
+        dato = _dato;
         siguiente = NULL;
     }
 
-    Nodo(int _dato, int referencia, Nodo * _siguiente){
-        dato[0] = _dato;
-        dato[1] = referencia;
+    Nodo(DATO _dato, Nodo<DATO> * _siguiente){
+        dato = _dato;
         siguiente = _siguiente;
-    }
-
-    void * operator new(size_t size){
-        void * p = ::new Nodo();
-        return p;
     }
 
     void operator delete(void * p){
         free(p);
     }
 
-    void modifD(int _dato){
-        dato[0] = _dato;
-    }
-    
-    void modifR(int referencia){
-        dato[1] = referencia;
+    void modif(DATO _dato){
+        dato = _dato;
     }
 
-    int consulta(){
-        return dato[0], dato[1];
+    DATO consulta(){
+        return dato;
     }
 };
 

@@ -23,7 +23,7 @@ class Server{
         char buffer[1024];
         int client, server;
         Json::Reader reader;
-        Json::Value dataS, dataR;
+        Json::Value dataS;
         Json::StyledWriter writer;
 
     //Constructor
@@ -75,10 +75,7 @@ class Server{
 std::string Server::Recibir(){
     int bufsizeR = 1024;
     char bufferR[1024];
-    std::map<int, std::string, std::string> map;
     recv(server, bufferR, bufsizeR, 0);
-    std::string text = bufferR;
-    reader.parse(text, dataR);
     return text;
 }
 
