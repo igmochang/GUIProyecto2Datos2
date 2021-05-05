@@ -18,8 +18,8 @@ int main(int argc, char *argv[]){
     Json::Reader reader;
     Json::Value data;
 
-    ListaSimple<std::tuple<std::string, std::string, int, ptrdiff_t>> * listaDatos = new ListaSimple<std::tuple<std::string, std::string, int>>();
-    ListaSimple<* void> *listaPuntero = new ListaSimple<* void>();
+    ListaSimple<std::tuple<std::string, std::string, int>> * listaDatos = new ListaSimple<std::tuple<std::string, std::string, int>>();
+    ListaSimple<int> *listaPuntero = new ListaSimple<int>();
 
     std::tuple<std::string, std::string, int> TuplaG, TuplaTem;
 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[]){
     Server *Servidor = new Server(puerto);
 
     std::string text, revisar, textSalida, puntero;
-    int espacio;
+    int espacio, refe;
     char *limitF, *limitI;
     bool guardar, temporal;
 
@@ -38,9 +38,9 @@ int main(int argc, char *argv[]){
         if(double(clock()/CLOCKS_PER_SEC) > time){
             if(temporal == false && listaPuntero->size != 0){
                 for(int i=0; i<=listaPuntero->size-1; i++){
-                void *ptrTem = listaPuntero->obtenerPos(i);
-                Memoria->clear(ptrTem);
-                listaPuntero->eliminar(ptrTem);
+                //void *ptrTem = listaPuntero->obtenerPos(i);
+                //Memoria->Clear(ptrTem);
+                //listaPuntero->eliminar(ptrTem);
             }}
             time += 10;
         }
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
         revisar = data["tipo"].asString();
         if(revisar == "int"){ espacio = 4; } else if(revisar == "long") { espacio = 8; }
         else if(revisar == "char"){ espacio = 1; } else if(revisar == "float") { espacio = 4; }
-        else if(revisar == "double"){ espacio = 8; } else if(revisar == "reference") { espacio = 4; }
+        else if(revisar == "double"){ espacio = 8; } 
 
         if(data["corchete"].asString() == "true"){ temporal = true; } else{ temporal = false; }
 
@@ -60,12 +60,12 @@ int main(int argc, char *argv[]){
             std::cout << ptrMemoria << std::endl;
             //char n = ptrMemoria;
             //std::string hola = std::to_string(n);
-
+            refe = 1;
             TuplaG = std::make_tuple(data["nombre"].asString(), data["tipo"].asString(), 1);
             listaDatos->insertar(TuplaG);
             
             if(temporal){
-                listaPuntero->insertar(ptrMemoria);
+		std::cout << "hola";
             }
 
             for(int i=0; i<=listaDatos->size-1; i++){
@@ -88,7 +88,7 @@ int main(int argc, char *argv[]){
             	}
             }
             textSalida += ",\"memoria\":\"0x102300\"";
-            textSalida += ",\"referencia\":\"1\"}";
+            textSalida += ",\"referencia\":\"" + std::to_string(refe) + "\"}";
 
 
         } else{

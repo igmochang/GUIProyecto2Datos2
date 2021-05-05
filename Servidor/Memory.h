@@ -10,19 +10,20 @@
 class Memory{
     public:
         void *memoryTotal;
-        int *memoryUsed;
-
+        int memoryUsed;
+	int tamanoT;
         int *entero;
         char *character;
         long *largo;
         float *flotante;
         double *doble;
 
-        int contadorInt, contadorChar, contadorLong, contadorFloat, contadorDouble;
+        int contador;
     
     Memory(int tamano){
         if((memoryTotal = malloc(tamano))==NULL){
             std::cout << "No se pudo crear el espacio de memoria solicitado" << std::endl;
+            tamanoT = tamano;
         } else{
             std::cout << "Espacio de memoria creado con: " << tamano << " bytes" << std::endl;
             
@@ -40,7 +41,7 @@ class Memory{
 };
 
 bool Memory::Revisar(int espacio){
-    if((memoryUsed+espacio) > memoryTotal){
+    if((memoryUsed+espacio) > tamanoT){
         std::cout << "Espacio en memoria insuficiente" << std::endl;
         return false;
     } else{
@@ -52,20 +53,26 @@ void* Memory::Agregar(std::string espacio){
     void *ptr;
     if(espacio == "int"){
         ptr = &entero[memoryUsed];
+        contador += 1;
         memoryUsed += 4;
     }else if(espacio == "long"){
         ptr = &largo[memoryUsed];
+        contador += 1;
         memoryUsed += 8;
     }else if(espacio == "char"){
         ptr = &character[memoryUsed];
+        contador += 1;
         memoryUsed += 1;
     }else if(espacio == "float"){
         ptr = &flotante[memoryUsed];
+        contador += 1;
         memoryUsed += 4;   
     }else if(espacio == "double"){
         ptr = &doble[memoryUsed];
+        contador += 1;
         memoryUsed += 8;
     return ptr;
+}
 }
 
 void Memory::Clear(void *ptr){

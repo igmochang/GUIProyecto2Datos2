@@ -15,7 +15,7 @@ private:
 
 public:
     Nodo<DATO> * inicio;
-    int size;
+    int size = 0;
 
     // Constructores
     ListaSimple(){
@@ -87,7 +87,7 @@ DATO ListaSimple<DATO>::obtenerPos(int Pos){
             tmp = tmp->siguiente;
             i += 1; 
     }   return tmp->dato; 
-    }
+    } return tmp->dato;
 }
 
 template<class DATO>
