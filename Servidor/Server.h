@@ -1,7 +1,6 @@
-//
-// Created by Johnny on 8/3/21.
-//
-
+/**
+ * @author Johnny Aguero
+ */
 #ifndef SERVER_H
 #define SERVER_H
 
@@ -17,6 +16,11 @@
 #include <jsoncpp/json/json.h>
 #include <map>
 
+/**
+ * @brief Create the socket server and de logic of the send a receive menssage
+ *  
+ * @param port, port of the server.
+ */
 class Server{
     public:
         int bufsize = 1024;
@@ -72,6 +76,11 @@ class Server{
 
 };
 
+/**
+ * @brief Receive the menssage of the client socket
+ *  
+ * @return text that receive
+ */
 std::string Server::Recibir(){
     int bufsizeR = 1024;
     char bufferR[1024];
@@ -80,6 +89,11 @@ std::string Server::Recibir(){
     return text;
 }
 
+/**
+ * @brief Send the menssage for the socket server.
+ *  
+ * @param text, text of the send menssage
+ */
 void Server::Enviar(std::string text){
     int bufsizeS = 1024;
     char bufferS[1024];

@@ -1,6 +1,7 @@
-//
-// Created by Johnny on 8/3/21.
-//
+/**
+ * @author Johnny Aguero
+ */
+
 
 #ifndef CLIENT_H
 #define CLIENT_H
@@ -19,6 +20,10 @@
 #include <jsoncpp/json/json.h>
 #include <QString>
 
+
+/**
+ * @brief create the client socket
+ */
 class Client{
     public:
         int bufsize = 1024;
@@ -61,6 +66,10 @@ class Client{
 
 };
 
+/**
+ * @brief Receive the menssage of the server
+ * @return string array that contains data
+ */
 std::array<std::string, 5> Client::Recibir(){
     int bufsizeR = 1024;
     char bufferR[1024];
@@ -81,6 +90,10 @@ std::array<std::string, 5> Client::Recibir(){
     
 }
 
+/**
+ * @brief send the menssage of the server
+ * @return string menssage to send at the server.
+ */
 void Client::Enviar(std::string text){
     int bufsizeS = 1024;
     char bufferS[1024];

@@ -1,3 +1,7 @@
+/**
+ * @author Johnny Aguero
+ */
+
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/json.h>
 #include <iostream>
@@ -9,6 +13,12 @@
 #include "Memory.h"
 #include "listasimple.h"
 
+/**
+ * @brief Contains the logic of the server algorithm
+ *  
+ * @param port of the server
+ * @param number of memory space in bytes 
+ */
 
 int main(int argc, char *argv[]){
 

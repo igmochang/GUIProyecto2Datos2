@@ -1,12 +1,17 @@
-//
-// Created by ignacio on 8/3/21.
-//
+/**
+ * @author Ignacio Morales
+ */
 
 #ifndef NODO_H
 #define NODO_H
 
 #include <stddef.h>
 
+/**
+ * @brief Node, struc.
+ *  
+ * @tparam DATO, type of the node
+ */
 template<class DATO>
 class Nodo {
 public:
@@ -29,15 +34,27 @@ public:
         dato = _dato;
         siguiente = _siguiente;
     }
-
+    /**
+     * @brief Delete de memory space of the node
+     *  
+     * @param p, pointer of the node
+     */
     void operator delete(void * p){
         free(p);
     }
 
+    /**
+     * @brief Edited the value of the node
+     *  
+     * @param DATO, node
+     */
     void modif(DATO _dato){
         dato = _dato;
     }
 
+    /**
+     * @brief Consult the node
+     */
     DATO consulta(){
         return dato;
     }

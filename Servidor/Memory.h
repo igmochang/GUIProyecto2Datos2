@@ -7,6 +7,11 @@
 #include <memory.h>
 #include "listasimple.h"
 
+/**
+ * @brief Contains the memory logic of the program
+ *  
+ * @param tamano size in bytes of the malloc created 
+ */
 class Memory{
     public:
         void *memoryTotal;
@@ -40,6 +45,10 @@ class Memory{
     void Clear(void *);
 };
 
+/**
+ * @brief Check if the size of the remaining memory is valid for create a new variable
+ * @return boolean is surplus size memory
+ */
 bool Memory::Revisar(int espacio){
     if((memoryUsed+espacio) > tamanoT){
         std::cout << "Espacio en memoria insuficiente" << std::endl;
@@ -49,6 +58,11 @@ bool Memory::Revisar(int espacio){
     }
 }
 
+/**
+ * @brief Add the new variable of the malloc with size of
+ * @param espacio is the type of the variable
+ * @return pointer of the memory location
+ */
 void* Memory::Agregar(std::string espacio){
     void *ptr;
     if(espacio == "int"){
@@ -75,6 +89,10 @@ void* Memory::Agregar(std::string espacio){
 }
 }
 
+/**
+ * @brief Delete the variable and delete the memory space
+ * @param *prt pointer of the variable is allocated
+ */
 void Memory::Clear(void *ptr){
     free(ptr);
 }

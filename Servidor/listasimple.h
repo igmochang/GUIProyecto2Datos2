@@ -1,12 +1,18 @@
-//
-// Created by ignacio on 8/3/21.
-//
+/**
+ * @author Ignacio Morales
+ */
 
 #ifndef LISTASIMPLE_H
 #define LISTASIMPLE_H
 
 #include "nodo.h"
 #include <stddef.h>
+
+/**
+ * @brief SimpleList class, contains de logic of the list structure.
+ *  
+ * @tparam DATO, list data type
+ */
 
 template<class DATO>
 class ListaSimple {
@@ -29,6 +35,12 @@ public:
     DATO obtenerPos(int);
 };
 
+/**
+ * @brief Add node to the list
+ *  
+ * @tparam DATO, list data type
+ * @param _dato, node to add at the list
+ */
 template<class DATO>
 void ListaSimple<DATO>::insertar(DATO _dato){
     if (inicio == NULL) {
@@ -46,6 +58,12 @@ void ListaSimple<DATO>::insertar(DATO _dato){
     }
 }
 
+/**
+ * @brief Delete node to the list
+ *  
+ * @tparam DATO, list data type
+ * @param _dato, node to delete at the list
+ */
 template<class DATO>
 void ListaSimple<DATO>::eliminar(DATO _dato){
     if (!estaVacia()){
@@ -74,7 +92,12 @@ void ListaSimple<DATO>::eliminar(DATO _dato){
     }
 }
 
-
+/**
+ * @brief Get node given a pos
+ *  
+ * @tparam Pos, pos of the node
+ * @return dato in the specific pos
+ */
 template<class DATO>
 DATO ListaSimple<DATO>::obtenerPos(int Pos){
     Nodo<DATO> *tmp = inicio;
@@ -90,6 +113,11 @@ DATO ListaSimple<DATO>::obtenerPos(int Pos){
     } return tmp->dato;
 }
 
+/**
+ * @brief Check the list is empty
+ *  
+ * @return bool, if the list is empty
+ */
 template<class DATO>
 bool ListaSimple<DATO>::estaVacia(){
     return inicio == NULL;
