@@ -38,7 +38,7 @@ class Memory{
     bool Revisar(int);
     void* Agregar(std::string);
     void Eliminar();
-    void Clear();
+    void Clear(void *);
 };
 
 bool Memory::Revisar(int espacio){
@@ -53,7 +53,7 @@ bool Memory::Revisar(int espacio){
 void* Memory::Agregar(std::string espacio){
     void *ptr;
     if(espacio == "int"){
-        ptr = &entero[contadorInt];
+        ptr = &entero[memoryUsed];
         contadorInt += 1;
         memoryUsed += 4;
     }else if(espacio == "long"){
@@ -80,8 +80,8 @@ void* Memory::Agregar(std::string espacio){
     return ptr;
 }
 
-void Memory::Clear(){
-    //free();
+void Memory::Clear(void *ptr){
+    free(ptr);
 }
 
 #endif

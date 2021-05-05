@@ -17,23 +17,31 @@ int main(int argc, char *argv[]){
     int puerto = atoi(argv[1]);
     Json::Reader reader;
     Json::Value data;
-    ListaSimple<std::tuple<std::string, std::string, int>> * listaDatos = new ListaSimple<std::tuple<std::string, std::string, int>>();
+
+    ListaSimple<std::tuple<std::string, std::string, int, ptrdiff_t>> * listaDatos = new ListaSimple<std::tuple<std::string, std::string, int>>();
+    ListaSimple<* void> *listaPuntero = new ListaSimple<* void>();
+
     std::tuple<std::string, std::string, int> TuplaG, TuplaTem;
 
     Memory *Memoria = new Memory(tamano);
     std::cout << "Puerto del servidor:  " << puerto << std::endl;
     Server *Servidor = new Server(puerto);
 
-    std::string text, revisar, textSalida;
+    std::string text, revisar, textSalida, puntero;
     int espacio;
     char *limitF, *limitI;
-    bool guardar;
+    bool guardar, temporal;
 
     while(true){
     	textSalida = "";
     	guardar = false;
         if(double(clock()/CLOCKS_PER_SEC) > time){
-            Memoria->Clear();
+            if(temporal == false && listaPuntero->size != 0){
+                for(int i=0; i<=listaPuntero->size-1; i++){
+                void *ptrTem = listaPuntero->obtenerPos(i);
+                Memoria->clear(ptrTem);
+                listaPuntero->eliminar(ptrTem);
+            }}
             time += 10;
         }
         
@@ -41,13 +49,11 @@ int main(int argc, char *argv[]){
         reader.parse(text, data);
 
         revisar = data["tipo"].asString();
+        if(revisar == "int"){ espacio = 4; } else if(revisar == "long") { espacio = 8; }
+        else if(revisar == "char"){ espacio = 1; } else if(revisar == "float") { espacio = 4; }
+        else if(revisar == "double"){ espacio = 8; } else if(revisar == "reference") { espacio = 4; }
 
-        if(revisar == "int") espacio = 4;
-        else if(revisar == "long") espacio = 8;
-        else if(revisar == "char") espacio = 1;
-        else if(revisar == "float") espacio = 4;
-        else if(revisar == "double") espacio = 8;
-        else if(revisar == "reference") espacio = 4;
+        if(data["corchete"].asString() == "true"){ temporal = true; } else{ temporal = false; }
 
         if(Memoria->Revisar(espacio)){
             void *ptrMemoria = Memoria->Agregar(revisar);
@@ -55,6 +61,10 @@ int main(int argc, char *argv[]){
 
             TuplaG = std::make_tuple(data["nombre"].asString(), data["tipo"].asString(), 1);
             listaDatos->insertar(TuplaG);
+            
+            if(temporal){
+                listaPuntero->insertar(ptrMemoria);
+            }
 
             for(int i=0; i<=listaDatos->size-1; i++){
                 TuplaTem = listaDatos->obtenerPos(i);
