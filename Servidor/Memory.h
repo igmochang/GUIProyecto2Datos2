@@ -27,7 +27,7 @@ class Memory{
     public:
         void *memoryTotal;
         int memoryUsed;
-	int tamanoT;
+	    int tamanoT;
         int *entero;
         char *character;
         long *largo;
@@ -42,7 +42,7 @@ class Memory{
             tamanoT = tamano;
         } else{
             std::cout << "Espacio de memoria creado con: " << tamano << " bytes" << std::endl;
-            
+            tamanoT = tamano;
             entero = (int *)memoryTotal;
             character = (char *)memoryTotal;
             largo = (long *)memoryTotal;

@@ -35,7 +35,7 @@ void GUI::on_runButton_clicked()
 
     if(codeCheck(lineList[cont])){
         cont++;
-        ui->output->append(vecArray[0][1]);
+
     }
 
     for(int i = 0; i<vecArray.length(); i++){
