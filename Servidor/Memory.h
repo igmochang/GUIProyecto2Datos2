@@ -1,3 +1,14 @@
+/**
+ * @file Memory.h
+ * @author Johnny Aguero
+ * @brief Memory Manager
+ * @version 0.1
+ * @date 2021-05-05
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
+
 #ifndef MEMORY_H
 #define MEMORY_H
 

@@ -1,6 +1,14 @@
 /**
+ * @file Server.h
  * @author Johnny Aguero
+ * @brief Create the Server socket and the necessary logic
+ * @version 0.1
+ * @date 2021-05-05
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
+
 #ifndef SERVER_H
 #define SERVER_H
 

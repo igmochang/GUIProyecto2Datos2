@@ -1,5 +1,12 @@
 /**
+ * @file main.cpp
  * @author Johnny Aguero
+ * @brief Contains the all the logic of the mserver
+ * @version 0.1
+ * @date 2021-05-05
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
 
 #include <jsoncpp/json/value.h>

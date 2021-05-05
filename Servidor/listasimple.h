@@ -1,5 +1,12 @@
 /**
+ * @file listasimple.h
  * @author Ignacio Morales
+ * @brief List Data Structure
+ * @version 0.1
+ * @date 2021-05-05
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
 
 #ifndef LISTASIMPLE_H

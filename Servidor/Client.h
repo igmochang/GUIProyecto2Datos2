@@ -1,5 +1,12 @@
 /**
+ * @file Client.h
  * @author Johnny Aguero
+ * @brief Create the Client socket and the necessary logic
+ * @version 0.1
+ * @date 2021-05-05
+ * 
+ * @copyright Copyright (c) 2021
+ * 
  */
 
 
