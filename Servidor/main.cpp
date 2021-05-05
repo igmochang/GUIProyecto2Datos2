@@ -58,6 +58,8 @@ int main(int argc, char *argv[]){
         if(Memoria->Revisar(espacio)){
             void *ptrMemoria = Memoria->Agregar(revisar);
             std::cout << ptrMemoria << std::endl;
+            //char n = ptrMemoria;
+            //std::string hola = std::to_string(n);
 
             TuplaG = std::make_tuple(data["nombre"].asString(), data["tipo"].asString(), 1);
             listaDatos->insertar(TuplaG);

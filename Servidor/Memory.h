@@ -17,9 +17,8 @@ class Memory{
         long *largo;
         float *flotante;
         double *doble;
-        //void *reference;
 
-        int contadorInt, contadorChar, contadorLong, contadorFloat, contadorDouble, contadoReference;
+        int contadorInt, contadorChar, contadorLong, contadorFloat, contadorDouble;
     
     Memory(int tamano){
         if((memoryTotal = malloc(tamano))==NULL){
@@ -32,7 +31,6 @@ class Memory{
             largo = (long *)memoryTotal;
             flotante = (float *)memoryTotal;
             doble = (double *)memoryTotal;
-            //reference = (void *)memoryTotal;
         }
     }
     bool Revisar(int);
@@ -54,29 +52,19 @@ void* Memory::Agregar(std::string espacio){
     void *ptr;
     if(espacio == "int"){
         ptr = &entero[memoryUsed];
-        contadorInt += 1;
         memoryUsed += 4;
     }else if(espacio == "long"){
-        ptr = &largo[contadorLong];
-        contadorLong += 1;
+        ptr = &largo[memoryUsed];
         memoryUsed += 8;
     }else if(espacio == "char"){
-        ptr = &character[contadorChar];
-        contadorChar += 1;
+        ptr = &character[memoryUsed];
         memoryUsed += 1;
     }else if(espacio == "float"){
-        ptr = &flotante[contadorFloat];
-        contadorFloat += 1;
+        ptr = &flotante[memoryUsed];
         memoryUsed += 4;   
     }else if(espacio == "double"){
-        ptr = &doble[contadorDouble];
-        contadorDouble += 1;
+        ptr = &doble[memoryUsed];
         memoryUsed += 8;
-    }/*else if(espacio == "reference"){
-        ptr = &reference[contadoReference];
-        contadoReference += 1;
-        memoryUsed += 4;
-    }*/
     return ptr;
 }
 
