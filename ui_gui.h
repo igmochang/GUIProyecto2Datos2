@@ -39,6 +39,7 @@ public:
     QPlainTextEdit *code;
     QScrollBar *verticalScrollBar;
     QTextBrowser *lineNumb;
+    QPushButton *pushButton;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *GUI)
@@ -93,6 +94,9 @@ public:
         lineNumb->setGeometry(QRect(0, 30, 31, 361));
         lineNumb->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         lineNumb->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        pushButton = new QPushButton(centralwidget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setGeometry(QRect(590, 510, 89, 25));
         GUI->setCentralWidget(centralwidget);
         runButton->raise();
         verticalLayoutWidget->raise();
@@ -102,11 +106,13 @@ public:
         code->raise();
         verticalScrollBar->raise();
         lineNumb->raise();
+        pushButton->raise();
         statusbar = new QStatusBar(GUI);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
         GUI->setStatusBar(statusbar);
 
         retranslateUi(GUI);
+        QObject::connect(pushButton, SIGNAL(clicked()), appLog, SLOT(clear()));
 
         QMetaObject::connectSlotsByName(GUI);
     } // setupUi
@@ -120,7 +126,7 @@ public:
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">hhiuhuh</p></body></html>", nullptr));
+"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", nullptr));
         output->setHtml(QApplication::translate("GUI", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -249,6 +255,7 @@ public:
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">98</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; "
                         "margin-right:0px; -qt-block-indent:0; text-indent:0px;\">99</p></body></html>", nullptr));
+        pushButton->setText(QApplication::translate("GUI", "Clear", nullptr));
     } // retranslateUi
 
 };
