@@ -10,7 +10,7 @@
 #include <QJsonValue>
 #include <QJsonArray>
 #include <bits/stdc++.h>
-//#include <array>
+
 
 
 QT_BEGIN_NAMESPACE
@@ -25,21 +25,23 @@ class GUI : public QMainWindow
 public:
     GUI(QWidget *parent = nullptr);
     ~GUI();
-    Json::Reader reader;
-    Json::Value data;
-    std::string text;
+
+
 
 private slots:
     void on_runButton_clicked();
-
-    
-
     void on_verticalScrollBar_sliderMoved(int position);
+
 
 private:
     Ui::GUI *ui;
-    
+
+    Json::Reader reader;
+    Json::Value data;
+    std::array<std::string, 5> text;
+
     QStringList separateCode(QString code);
+    QString boolToStr(bool b);
     bool codeCheck(QString codeline_);
     bool isNumber(QString strnum);
     bool isInt(QString n);
@@ -54,15 +56,7 @@ private:
     QString fromAscii(int n);
     QString getValue(QString varName);
     QString getAddr(QString varName);
-    //std::vector<std::array>
     QVector<std::array<QString, 4>> vecArray;
-
-
-
-
-    //std::vector<array> vecArray;
-
-    //QString matriz[2][2];
 
     ///QList< array > listArray;
 
@@ -71,5 +65,6 @@ private:
     QStringList elemList;
     QJsonArray arrayElem;
     int cont = 0;
+    bool scope = false;
 };
 #endif // GUI_H

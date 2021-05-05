@@ -17,6 +17,7 @@
 #include <netdb.h>
 #include <jsoncpp/json/value.h>
 #include <jsoncpp/json/json.h>
+#include <QString>
 
 class Client{
     public:
@@ -55,19 +56,27 @@ class Client{
     }
 
     //Metodos
-    std::string Recibir();
+    std::array<std::string, 5> Recibir();
     void Enviar(std::string);
 
 };
 
-std::string Client::Recibir(){
+std::array<std::string, 5> Client::Recibir(){
     int bufsizeR = 1024;
     char bufferR[1024];
+
     recv(client, bufferR, bufsizeR, 0);
     std::string text = bufferR;
-    std::cout << text << std::endl;
+
     reader.parse(text, dataR);
-    std::string data = writer.write(dataR);
+    std::string mem = dataR["memoria"].asString();
+    std::string ref = dataR["referencia"].asString();
+    std::string nom = dataR["nombre"].asString();
+    std::string val = dataR["valor"].asString();
+    std::string tipo = dataR["tipo"].asString();
+
+    std::array<std::string, 5> data {{tipo, nom, val, mem, ref}};
+
     return data;
     
 }

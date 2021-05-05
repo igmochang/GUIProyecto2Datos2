@@ -18,9 +18,6 @@ GUI::GUI(QWidget *parent)
     setWindowTitle("C! IDE");
     qDebug("Ventana de C! creada");
 
-    std::array<QString, 4> errex {{"int", "a", "2", "0x0A"}};
-    vecArray.push_back(errex);
-
 }
 
 GUI::~GUI()
@@ -34,16 +31,20 @@ void GUI::on_runButton_clicked()
 {
     QString plainCode = this->ui->code->toPlainText();
     QStringList lineList = separateCode(plainCode);
-
+    ui->RLVtext->clear();
 
     if(codeCheck(lineList[cont])){
         cont++;
+        ui->output->append(vecArray[0][1]);
     }
+
+    for(int i = 0; i<vecArray.length(); i++){
+        ui->RLVtext->append(vecArray[i][3]+" "+ vecArray[i][2]+" "+vecArray[i][1]);
+    }
+
 }
 
-
 QStringList GUI::separateCode(QString code) {
-    //QStringList lineList = code.split(QRegExp("[\n]"),QString::SkipEmptyParts);
     QRegExp lineDiv("(\\\n)");
     QRegExp lineElem("(\\ |\\;)");               
 
@@ -67,65 +68,67 @@ bool GUI::codeCheck(QString codeline_) {
                         QRegExp re("\\d*");
                         if(re.exactMatch(elemList_[3])){
                             if(codeline_.endsWith(';')){
-                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + /*true or false*/ +"\"}";
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
                                 text = Cliente->Recibir();
-                                reader.parse(text, data);
-                                std::cout << "Memoria" << data["Memoria"].asString() << std::endl;
-                                std::cout << "Referencia" << data["Referencia"].asString() << std::endl;
-                                std::cout << "Nombre" << data["Nombre"].asString() << std::endl;
-                                std::cout << "Valor" << data["Valor"].asString() << std::endl;
-                                std::cout << "Tipo" << data["Tipo"].asString() << std::endl;
+
+                                QString mem = QString::fromStdString(text[3]);
+                                QString ref = QString::fromStdString(text[4]);
+                                QString nom = QString::fromStdString(text[1]);
+                                QString val = QString::fromStdString(text[2]);
+                                QString tipo = QString::fromStdString(text[0]);
+
+                                std::array<QString, 4> errex {{tipo, nom, val, mem}};
+
+                                ui->output->append(nom);
+
+                                vecArray.push_back(errex);
+
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else{ui->appLog->append("Error: Valor no es int");}
                     } else if (elemList_[0] == "float"){
                         if(isFloat(elemList_[3])){
                             if(codeline_.endsWith(';')){
-                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
-                                text = Cliente->Recibir();
-                                reader.parse(text, data);
+
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es float");}
                     } else if (elemList_[0] == "double") {
                         if(isDouble(elemList_[3])){
                             if(codeline_.endsWith(';')){
-                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
-                                text = Cliente->Recibir();
-                                reader.parse(text, data);
+
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es double");}
                     } else if (elemList_[0] == "long") {
                         if(isLong(elemList_[3])){
                             if(codeline_.endsWith(';')){
-                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
-                                text = Cliente->Recibir();
-                                reader.parse(text, data);
+
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es long");}
                     } else if (elemList_[0] == "char") {
                         if(isChar(elemList_[3])){
                             if(codeline_.endsWith(';')){
-                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\"}";
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
-                                text = Cliente->Recibir();
-                                reader.parse(text, data);
+
                                 return true;
                             } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
                         } else {ui->appLog->append("Error: Valor no es char");}
                     } else if (elemList_.startsWith("reference")){
                         if (elemList_[2] == "="){
                             if(isVariable(elemList_[3].mid(8,elemList_[3].length()-9))){
-                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + getAddr(elemList_[3].mid(8,elemList_[3].length()-9)) + "\"}";
+                                strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + getAddr(elemList_[3].mid(8,elemList_[3].length()-9)) + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
-                                text = Cliente->Recibir();
-                                reader.parse(text, data);
+
                                 return true;
                             }
                         }
@@ -427,10 +430,19 @@ bool GUI::codeCheck(QString codeline_) {
                 ui->output->append(getValue(elemList_[0].mid(13, elemList_[0].length()-14)));
                 return true;
             }
+        } else if(elemList_[0] == "{"){
+            scope = true;
+            return true;
+        } else if (elemList_[0] == "}"){
+            scope = false;
+            return true;
         }
     }
 }
 
+QString GUI::boolToStr(bool b){
+    return b ? "true" : "false";
+}
 bool GUI::isNumber(QString strnum){
     if (isFloat(strnum) or isLong(strnum) or isDouble(strnum) or isInt(strnum)){
         return true;

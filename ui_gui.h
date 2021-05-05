@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'gui.ui'
 **
-** Created by: Qt User Interface Compiler version 5.12.8
+** Created by: Qt User Interface Compiler version 5.12.10
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -32,7 +32,7 @@ public:
     QWidget *verticalLayoutWidget;
     QVBoxLayout *RAMLVgrid;
     QLabel *RLVlabel;
-    QTextBrowser *RLVtextbrowser;
+    QTextBrowser *RLVtext;
     QTextEdit *output;
     QTextEdit *appLog;
     QLabel *appLogLabel;
@@ -62,10 +62,10 @@ public:
 
         RAMLVgrid->addWidget(RLVlabel, 0, Qt::AlignHCenter|Qt::AlignTop);
 
-        RLVtextbrowser = new QTextBrowser(verticalLayoutWidget);
-        RLVtextbrowser->setObjectName(QString::fromUtf8("RLVtextbrowser"));
+        RLVtext = new QTextBrowser(verticalLayoutWidget);
+        RLVtext->setObjectName(QString::fromUtf8("RLVtext"));
 
-        RAMLVgrid->addWidget(RLVtextbrowser);
+        RAMLVgrid->addWidget(RLVtext);
 
         output = new QTextEdit(centralwidget);
         output->setObjectName(QString::fromUtf8("output"));
@@ -116,6 +116,11 @@ public:
         GUI->setWindowTitle(QApplication::translate("GUI", "GUI", nullptr));
         runButton->setText(QApplication::translate("GUI", "Run", nullptr));
         RLVlabel->setText(QApplication::translate("GUI", "Ram Live View", nullptr));
+        RLVtext->setHtml(QApplication::translate("GUI", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">hhiuhuh</p></body></html>", nullptr));
         output->setHtml(QApplication::translate("GUI", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
