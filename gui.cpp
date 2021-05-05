@@ -39,9 +39,8 @@ void GUI::on_runButton_clicked()
     }
 
     for(int i = 0; i<vecArray.length(); i++){
-        ui->RLVtext->append(vecArray[i][3]+" "+ vecArray[i][2]+" "+vecArray[i][1]);
+        ui->RLVtext->append(vecArray[i][3]+" "+ vecArray[i][2]+" "+vecArray[i][1]+" "+vecArray[i][4]);
     }
-
 }
 
 QStringList GUI::separateCode(QString code) {
@@ -78,56 +77,143 @@ bool GUI::codeCheck(QString codeline_) {
                                 QString val = QString::fromStdString(text[2]);
                                 QString tipo = QString::fromStdString(text[0]);
 
-                                std::array<QString, 4> errex {{tipo, nom, val, mem}};
-
-                                ui->output->append(nom);
-
+                                std::array<QString, 5> errex {{tipo, nom, val, mem, ref}};
                                 vecArray.push_back(errex);
 
                                 return true;
-                            } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
-                        } else{ui->appLog->append("Error: Valor no es int");}
+                            } else{
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as + " Error: se espera ';' al final de la linea");
+                            }
+                        } else{
+                            QDateTime a = QDateTime::currentDateTime();
+                            QString as = a.toString(time_format);
+                            ui->appLog->append(as+" Error: Valor no es int");
+                        }
                     } else if (elemList_[0] == "float"){
                         if(isFloat(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+
+                                QString mem = QString::fromStdString(text[3]);
+                                QString ref = QString::fromStdString(text[4]);
+                                QString nom = QString::fromStdString(text[1]);
+                                QString val = QString::fromStdString(text[2]);
+                                QString tipo = QString::fromStdString(text[0]);
+
+                                std::array<QString, 5> errex {{tipo, nom, val, mem, ref}};
+                                vecArray.push_back(errex);
 
                                 return true;
-                            } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
-                        } else {ui->appLog->append("Error: Valor no es float");}
+                            } else {
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as+" Error: se espera ';' al final de la linea");
+                            }
+                        } else {
+                            QDateTime a = QDateTime::currentDateTime();
+                            QString as = a.toString(time_format);
+                            ui->appLog->append(as+" Error: Valor no es float");
+                        }
                     } else if (elemList_[0] == "double") {
                         if(isDouble(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+
+                                QString mem = QString::fromStdString(text[3]);
+                                QString ref = QString::fromStdString(text[4]);
+                                QString nom = QString::fromStdString(text[1]);
+                                QString val = QString::fromStdString(text[2]);
+                                QString tipo = QString::fromStdString(text[0]);
+
+                                std::array<QString, 5> errex {{tipo, nom, val, mem, ref}};
+                                vecArray.push_back(errex);
 
                                 return true;
-                            } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
-                        } else {ui->appLog->append("Error: Valor no es double");}
+                            } else {
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as + " Error: se espera ';' al final de la linea");
+                            }
+                        } else {
+                            QDateTime a = QDateTime::currentDateTime();
+                            QString as = a.toString(time_format);
+                            ui->appLog->append(as + " Error: Valor no es double");
+                        }
                     } else if (elemList_[0] == "long") {
                         if(isLong(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+
+                                QString mem = QString::fromStdString(text[3]);
+                                QString ref = QString::fromStdString(text[4]);
+                                QString nom = QString::fromStdString(text[1]);
+                                QString val = QString::fromStdString(text[2]);
+                                QString tipo = QString::fromStdString(text[0]);
+
+                                std::array<QString, 5> errex {{tipo, nom, val, mem, ref}};
+                                vecArray.push_back(errex);
 
                                 return true;
-                            } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
-                        } else {ui->appLog->append("Error: Valor no es long");}
+                            } else {
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as + " Error: se espera ';' al final de la linea");
+                            }
+                        } else {
+                            QDateTime a = QDateTime::currentDateTime();
+                            QString as = a.toString(time_format);
+                            ui->appLog->append(as+" Error: Valor no es long");
+                        }
                     } else if (elemList_[0] == "char") {
                         if(isChar(elemList_[3])){
                             if(codeline_.endsWith(';')){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + elemList[3] + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+
+                                QString mem = QString::fromStdString(text[3]);
+                                QString ref = QString::fromStdString(text[4]);
+                                QString nom = QString::fromStdString(text[1]);
+                                QString val = QString::fromStdString(text[2]);
+                                QString tipo = QString::fromStdString(text[0]);
+
+                                std::array<QString, 5> errex {{tipo, nom, val, mem, ref}};
+                                vecArray.push_back(errex);
 
                                 return true;
-                            } else {ui->appLog->append("Error: se espera ';' al final de la linea");}
-                        } else {ui->appLog->append("Error: Valor no es char");}
+                            } else {
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as+" Error: se espera ';' al final de la linea");
+                            }
+                        } else {
+                            QDateTime a = QDateTime::currentDateTime();
+                            QString as = a.toString(time_format);
+                            ui->appLog->append(as+" Error: Valor no es char");
+                        }
                     } else if (elemList_.startsWith("reference")){
                         if (elemList_[2] == "="){
                             if(isVariable(elemList_[3].mid(8,elemList_[3].length()-9))){
                                 strLinea = "{\"tipo\":\"" + elemList[0] + "\", \"nombre\":\"" + elemList[1] + "\", \"valor\":\"" + getAddr(elemList_[3].mid(8,elemList_[3].length()-9)) + "\", \"corchete\":\"" + boolToStr(scope) + "\"}";
                                 Cliente->Enviar(strLinea.toUtf8().constData());
+                                text = Cliente->Recibir();
+
+                                QString mem = QString::fromStdString(text[3]);
+                                QString ref = QString::fromStdString(text[4]);
+                                QString nom = QString::fromStdString(text[1]);
+                                QString val = QString::fromStdString(text[2]);
+                                QString tipo = QString::fromStdString(text[0]);
+
+                                std::array<QString, 5> errex {{tipo, nom, val, mem, ref}};
+                                vecArray.push_back(errex);
 
                                 return true;
                             }
@@ -140,16 +226,16 @@ bool GUI::codeCheck(QString codeline_) {
                 if(vecArray[findVariableNameIndex(elemList_[0])][0] != "char" && vecArray[findVariableNameIndex(elemList_[2])][0] != "char"){
                     if(elemList_[1] == "="){
                         if(vecArray[findVariableNameIndex(elemList_[0])][0] == "int"){
-                            vecArray[findVariableNameIndex(elemList_[0])][2] = (vecArray[findVariableNameIndex(elemList_[2])][2]).toInt();
+                            vecArray[findVariableNameIndex(elemList_[0])][2] = QString::number((vecArray[findVariableNameIndex(elemList_[2])][2]).toInt());
                             return true;
                         } else if (vecArray[findVariableNameIndex(elemList_[0])][0] == "float") {
-                            vecArray[findVariableNameIndex(elemList_[0])][2] = (vecArray[findVariableNameIndex(elemList_[2])][2]).toFloat();
+                            vecArray[findVariableNameIndex(elemList_[0])][2] = QString::number((vecArray[findVariableNameIndex(elemList_[2])][2]).toFloat());
                             return true;
                         } else if (vecArray[findVariableNameIndex(elemList_[0])][0] == "double") {
-                            vecArray[findVariableNameIndex(elemList_[0])][2] = (vecArray[findVariableNameIndex(elemList_[2])][2]).toDouble();
+                            vecArray[findVariableNameIndex(elemList_[0])][2] = QString::number((vecArray[findVariableNameIndex(elemList_[2])][2]).toDouble());
                             return true;
                         } else if (vecArray[findVariableNameIndex(elemList_[0])][0] == "long") {
-                            vecArray[findVariableNameIndex(elemList_[0])][2] = (vecArray[findVariableNameIndex(elemList_[2])][2]).toLong();
+                            vecArray[findVariableNameIndex(elemList_[0])][2] = QString::number((vecArray[findVariableNameIndex(elemList_[2])][2]).toLong());
                             return true;
                         }
                     } else {
@@ -167,7 +253,10 @@ bool GUI::codeCheck(QString codeline_) {
                             } else if(elemList_[1]=="/"){
                                 ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toDouble() / vecArray[findVariableNameIndex(elemList_[2])][2].toDouble()));
                                 return true;
-                            } else{ ui->appLog->setText("Operacion no reconocida");
+                            } else{
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as+" Error: Operacion no reconocida");
                                 return false;
                             }
 
@@ -185,7 +274,10 @@ bool GUI::codeCheck(QString codeline_) {
                             } else if(elemList_[1]=="/"){
                                 ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toFloat() / vecArray[findVariableNameIndex(elemList_[2])][2].toFloat()));
                                 return true;
-                            } else{ ui->appLog->setText("Operacion no reconocida");
+                            } else{
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as + " Operacion no reconocida");
                                 return false;
                             }
 
@@ -203,7 +295,10 @@ bool GUI::codeCheck(QString codeline_) {
                             } else if(elemList_[1]=="/"){
                                 ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toLong() / vecArray[findVariableNameIndex(elemList_[2])][2].toLong()));
                                 return true;
-                            } else{ ui->appLog->setText("Operacion no reconocida");
+                            } else{
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as+" Error: Operacion no reconocida");
                                 return false;
                             }
                         } else{
@@ -219,7 +314,10 @@ bool GUI::codeCheck(QString codeline_) {
                             } else if(elemList_[1]=="/"){
                                 ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toInt() / vecArray[findVariableNameIndex(elemList_[2])][2].toInt()));
                                 return true;
-                            } else{ ui->appLog->setText("Operacion no reconocida");
+                            } else{
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->append(as+" Error: Operacion no reconocida");
                                 return false;
                             }
                         }
@@ -255,7 +353,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toDouble() / convertToAscii((vecArray[findVariableNameIndex(elemList_[2])][2]).toStdString())));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->append(as+" Error: Operacion no reconocida");
                                     return false;
                                 }
 
@@ -273,7 +374,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toFloat() / convertToAscii((vecArray[findVariableNameIndex(elemList_[2])][2]).toStdString())));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->append(as+" Error: Operacion no reconocida");
                                     return false;
                                 }
 
@@ -291,7 +395,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toLong() / convertToAscii((vecArray[findVariableNameIndex(elemList_[2])][2]).toStdString())));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->append(as+" Error: Operacion no reconocida");
                                     return false;
                                 }
                             } else{
@@ -307,7 +414,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(vecArray[findVariableNameIndex(elemList_[0])][2].toInt() / convertToAscii((vecArray[findVariableNameIndex(elemList_[2])][2]).toStdString())));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->setText(as+" Error: Operacion no reconocida");
                                     return false;
                                 }
                             }
@@ -329,7 +439,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(convertToAscii(vecArray[findVariableNameIndex(elemList_[0])][2].toStdString()) / vecArray[findVariableNameIndex(elemList_[2])][2].toDouble()));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->append(as+" Error: Operacion no reconocida");
                                     return false;
                                 }
 
@@ -346,7 +459,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(convertToAscii(vecArray[findVariableNameIndex(elemList_[0])][2].toStdString()) / vecArray[findVariableNameIndex(elemList_[2])][2].toFloat()));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->append(as+" Error: Operacion no reconocida");
                                     return false;
                                 }
 
@@ -363,7 +479,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(convertToAscii(vecArray[findVariableNameIndex(elemList_[0])][2].toStdString()) / vecArray[findVariableNameIndex(elemList_[2])][2].toLong()));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->append(" Error: Operacion no reconocida");
                                     return false;
                                 }
                             } else{
@@ -379,7 +498,10 @@ bool GUI::codeCheck(QString codeline_) {
                                 } else if(elemList_[1]=="/"){
                                     ui->output->append(QString::number(convertToAscii(vecArray[findVariableNameIndex(elemList_[0])][2].toStdString()) / vecArray[findVariableNameIndex(elemList_[2])][2].toInt()));
                                     return true;
-                                } else{ ui->appLog->setText("Operacion no reconocida");
+                                } else{
+                                    QDateTime a = QDateTime::currentDateTime();
+                                    QString as = a.toString(time_format);
+                                    ui->appLog->append(as+" Error: Operacion no reconocida");
                                     return false;
                                 }
                             }
@@ -389,7 +511,6 @@ bool GUI::codeCheck(QString codeline_) {
                             vecArray[findVariableNameIndex(elemList_[0])][2] = vecArray[findVariableNameIndex(elemList_[2])][2];
                             return true;
                         } else {
-
                             if(elemList_[1]=="+"){
                                 ui->output->append(QString::number(convertToAscii(vecArray[findVariableNameIndex(elemList_[0])][2].toStdString()) + convertToAscii((vecArray[findVariableNameIndex(elemList_[2])][2]).toStdString())));
                                 return true;
@@ -402,7 +523,10 @@ bool GUI::codeCheck(QString codeline_) {
                             } else if(elemList_[1]=="/"){
                                 ui->output->append(QString::number(convertToAscii(vecArray[findVariableNameIndex(elemList_[0])][2].toStdString()) / convertToAscii((vecArray[findVariableNameIndex(elemList_[2])][2]).toStdString())));
                                 return true;
-                            } else{ ui->appLog->setText("Operacion no reconocida");
+                            } else{
+                                QDateTime a = QDateTime::currentDateTime();
+                                QString as = a.toString(time_format);
+                                ui->appLog->setText(as+" Error: Operacion no reconocida");
                                 return false;
                             }
                         }

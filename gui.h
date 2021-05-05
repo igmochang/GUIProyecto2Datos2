@@ -1,3 +1,11 @@
+/**
+ *  @file gui.h
+ *  @author Ignacio Morales
+ *  @brief C! GUI
+ *  @version 1.0
+ *  @date 2021-05-05
+
+ */
 #ifndef GUI_H
 #define GUI_H
 
@@ -9,6 +17,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QJsonArray>
+#include <QDateTime>
 #include <bits/stdc++.h>
 
 
@@ -29,7 +38,14 @@ public:
 
 
 private slots:
+    /**
+     * @brief lleva a cabo acciones al apretar boton run
+     */
     void on_runButton_clicked();
+    /**
+     * @brief controla scroll de ventana
+     * @param position
+     */
     void on_verticalScrollBar_sliderMoved(int position);
 
 
@@ -40,25 +56,101 @@ private:
     Json::Value data;
     std::array<std::string, 5> text;
 
+    /**
+     * @brief separa el codigo en lineas
+     * @param code
+     * @return Lista de lineas de codigo
+     */
     QStringList separateCode(QString code);
+    /**
+     * @brief convierte un booleano a string
+     * @param b booleano
+     * @return Booleano en string
+     */
     QString boolToStr(bool b);
+    /**
+     * @brief revisa una linea de codigo
+     * @param codeline_
+     * @return booleano
+     */
     bool codeCheck(QString codeline_);
+    /**
+     * @brief revisa si un QString es un numero
+     * @param strnum
+     * @return booleano
+     */
     bool isNumber(QString strnum);
+    /**
+     * @brief revisa si entrada es int
+     * @param n
+     * @return booleano
+     */
     bool isInt(QString n);
+    /**
+     * @brief revisa si entrada es float
+     * @param n
+     * @return booleano
+     */
     bool isFloat(QString n);
+    /**
+     * @brief revisa si entrada es double
+     * @param n
+     * @return booleano
+     */
     bool isDouble(QString n);
+    /**
+     * @brief revisa si entrada es long
+     * @param n
+     * @return booleano
+     */
     bool isLong(QString n);
+    /**
+     * @brief revisa si entrada es Char
+     * @param n
+     * @return booleano
+     */
     bool isChar(QString n);
+    /**
+     * @brief encuentra el indice de variable en vector
+     * @param varName nombre de variable
+     * @return indice de variable
+     */
     int findVariableNameIndex(QString varName);
+    /**
+     * @brief revisa si parametro es una variable existente
+     * @param varName nombre de variable
+     * @return booleano
+     */
     bool isVariable(QString varName);
-    bool areCompatible(QString n1, QString n2);
+    /**
+     * @brief convierte string en su valor ASCII
+     * @param n
+     * @return valor ASCII en int
+     */
     int convertToAscii(std::string n);
+    /**
+     * @brief convierte valor ASCII en QString
+     * @param n
+     * @return ASCII en QString
+     */
     QString fromAscii(int n);
+    /**
+     * @brief obtiene valor segun nombre de variable
+     * @param varName
+     * @return valor en QString
+     */
     QString getValue(QString varName);
+    /**
+     * @brief obtiene la direccion segun el nombre de variable
+     * @param varName
+     * @return Direccion de memoria en QString
+     */
     QString getAddr(QString varName);
-    QVector<std::array<QString, 4>> vecArray;
+    QVector<std::array<QString, 5>> vecArray;
 
-    ///QList< array > listArray;
+    QString time_format = "yyy-MM-dd HH:mm:ss";
+
+
 
     QStringList lineList;
     QString strLinea;
